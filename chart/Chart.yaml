@@ -1,0 +1,11 @@
+apiVersion: v2
+name: books
+version: 1.0.0
+appVersion: 1.0.0
+description: book reviews
+home: http://www.drupal.org/
+sources:
+  - https://github.com/rberrelleza/sgvirtual-okteto
+maintainers:
+  - name: Ramiro Berrelleza
+    email: rberrelleza@gmail.com

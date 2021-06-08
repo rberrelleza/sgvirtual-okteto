@@ -1,0 +1,14 @@
+books:
+  image: bitnami/nginx
+  tag: latest
+
+details:
+  image: bitnami/nginx
+  tag: latest
+
+ratings:
+  image: bitnami/nginx
+  tag: latest
+
+mongodb:
+  password: "Password!1@2"

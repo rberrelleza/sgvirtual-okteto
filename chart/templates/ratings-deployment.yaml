@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratings
+  template:
+    metadata:
+      labels:
+        app: ratings
+    spec:
+      containers:
+      - image: {{ .Values.ratings.image }}:{{ .Values.ratings.tag }}
+        name: ratings
