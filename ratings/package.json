@@ -1,0 +1,10 @@
+{
+  "name": "ratings",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.9"
+  }
+}

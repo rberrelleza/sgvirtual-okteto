@@ -1,49 +1,29 @@
 #!/usr/bin/ruby
 
-require 'webrick'
 require 'json'
 require 'net/http'
+require 'sinatra'
 
-server = WEBrick::HTTPServer.new :BindAddress => '*', :Port => 8080
+set :bind, '0.0.0.0'
+set :port, '8080'
 
-trap 'INT' do server.shutdown end
-
-server.mount_proc '/api/health' do |req, res|
-    res.status = 200
-    res.body = {'status' => 'Details is healthy'}.to_json
-    res['Content-Type'] = 'application/json'
+get '/api/health' do
+  content_type 'application/json'
+  {'status' => 'Details is healthy'}
 end
 
-server.mount_proc '/api/details' do |req, res|
-    pathParts = req.path.split('/')
-    headers = get_forward_headers(req)
-
-    begin
-        begin
-          isbn = Integer(pathParts[-1])
-        rescue
-          raise 'please provide numeric product id'
-        end
-        details = get_book_details(isbn, headers)
-        res.body = details.to_json
-        res['Content-Type'] = 'application/json'
-    rescue => error
-        res.body = {'error' => error}.to_json
-        res['Content-Type'] = 'application/json'
-        res.status = 400
-    end
+get '/api/details/:isbn' do |isbn|
+  content_type 'application/json'
+  details = get_book_details(isbn)
+  details.to_json
 end
 
-def get_book_details(isbn, headers)
+def get_book_details(isbn)
     uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
-    http = Net::HTTP.new(uri.host, ENV['DO_NOT_ENCRYPT'] === 'true' ? 80:443)
-    http.read_timeout = 5 # seconds
-   
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
     request = Net::HTTP::Get.new(uri.request_uri)
-    headers.each { |header, value| request[header] = value }
-
     response = http.request(request)
-
     json = JSON.parse(response.body)
     book = json['items'][0]['volumeInfo']
 
@@ -53,6 +33,7 @@ def get_book_details(isbn, headers)
     isbn13 = get_isbn(book, 'ISBN_13')
 
     return {
+        'title': book['title'],
         'author': book['authors'][0],
         'year': book['publishedDate'],
         'type' => type,
@@ -62,7 +43,6 @@ def get_book_details(isbn, headers)
         'ISBN-10' => isbn10,
         'ISBN-13' => isbn13
   }
-
 end
 
 def get_isbn(book, isbn_type)
@@ -72,5 +52,3 @@ def get_isbn(book, isbn_type)
 
   return isbn_dentifiers[0]['identifier']
 end
-
-server.start
