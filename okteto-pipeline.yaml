@@ -1,0 +1,5 @@
+deploy:
+- okteto build -t okteto.dev/books:${OKTETO_GIT_COMMIT} books
+- okteto build -t okteto.dev/ratings:${OKTETO_GIT_COMMIT} ratings
+- okteto build -t okteto.dev/details:${OKTETO_GIT_COMMIT} details
+- helm upgrade --install books chart --set tag=$OKTETO_GIT_COMMIT

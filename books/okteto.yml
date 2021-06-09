@@ -1,0 +1,6 @@
+name: books
+command: bash
+volumes:
+- /root/.cache/pip
+sync:
+- .:/usr/src/app

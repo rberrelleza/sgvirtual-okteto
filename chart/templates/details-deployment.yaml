@@ -13,5 +13,5 @@ spec:
         app: details
     spec:
       containers:
-      - image: {{ .Values.details.image }}:{{ .Values.details.tag }}
+      - image: okteto.dev/details:{{ .Values.tag }}
         name: details
