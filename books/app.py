@@ -5,8 +5,12 @@ import flask
 
 app = flask.Flask(__name__)
 
+@app.route('/)
+def index():
+  return flask.redirect(flask.url_for('get/1529038340'), code=302)
+  
 @app.route('/<isbn>', methods=['GET'])
-def index(isbn):
+def get(isbn):
     d = requests.get('http://details:8080/api/details/' + isbn)
     details = d.json()
     r = requests.get('http://ratings:8080/api/ratings/' + isbn)
