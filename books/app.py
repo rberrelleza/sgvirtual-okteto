@@ -10,7 +10,11 @@ def index(isbn):
     d = requests.get('http://details:8080/api/details/' + isbn)
     details = d.json()
     r = requests.get('http://ratings:8080/api/ratings/' + isbn)
-    ratings = r.json()
+    ratings = {'rating': 'n/a'}
+    if r.status_code < 300:
+      ratings = r.json()
+      
+    
 
     return {
       'title': details.get('title'),

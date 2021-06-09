@@ -1,5 +1,4 @@
 name: books
-image: okteto/python:3
 command: bash
 volumes:
 - /root/.cache/pip
