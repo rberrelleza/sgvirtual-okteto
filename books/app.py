@@ -7,7 +7,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-  return flask.redirect(flask.url_for('get/1529038340'), code=302)
+  return flask.redirect(flask.url_for('get', isbn='0140258833'), code=302)
 
 @app.route('/<isbn>', methods=['GET'])
 def get(isbn):
