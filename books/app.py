@@ -14,8 +14,6 @@ def index(isbn):
     if r.status_code < 300:
       ratings = r.json()
       
-    
-
     return {
       'title': details.get('title'),
       'author': details.get('author'),

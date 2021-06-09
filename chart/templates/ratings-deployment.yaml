@@ -13,7 +13,7 @@ spec:
         app: ratings
     spec:
       containers:
-      - image: okteto.dev/details:{{ .Values.tag }}
+      - image: okteto.dev/ratings:{{ .Values.tag }}
         name: ratings
         env:
             - name: MONGODB_PASSWORD
