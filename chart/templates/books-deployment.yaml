@@ -13,5 +13,5 @@ spec:
         app: books
     spec:
       containers:
-      - image: okteto.dev/books:{{ .Values.tag }}
+      - image: {{ .Values.books.image }}:{{ .Values.books.tag }}
         name: books
